@@ -14,9 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 )
 public class App {
 
-    @Autowired
-    AmazonS3 s3Client;
-
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }
