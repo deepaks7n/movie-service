@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      database: movieDB
+  cache:
+    type: redis
+    redis:
+      host: localhost
+      port: 6379
+      key-prefix: mov
+      time-to-live: 6000000
+      use-key-prefix: true
+
+
