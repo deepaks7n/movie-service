@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.7.4'
     id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+    id 'com.google.cloud.tools.jib' version '3.3.0'
     id 'java'
 }
 
@@ -17,6 +18,15 @@ configurations {
 repositories {
     mavenCentral()
 }
+jib {
+    from {
+        image = 'adoptopenjdk:11.0.5_10-jre-hotspot-bionic'
+    }
+
+    to {
+        image = "movie/${project.name}:${project.version}"
+    }
+}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
@@ -30,6 +40,7 @@ dependencies {
     //jackson
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.4'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.4'
     implementation 'org.apache.commons:commons-io:1.3.2'
 
@@ -38,7 +49,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-    //Spring Integration
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 }
 
 tasks.named('test') {
