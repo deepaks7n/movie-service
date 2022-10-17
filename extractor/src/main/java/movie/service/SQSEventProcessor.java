@@ -1,6 +1,7 @@
 package movie.service;
 
 import com.amazonaws.services.s3.event.S3EventNotification;
+import com.amazonaws.util.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import movie.domain.Movie;
 import movie.repository.MovieRepository;
@@ -35,18 +36,20 @@ public class SQSEventProcessor {
     @SqsListener(value = "${cloud.aws.sqs.url}", deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS)
     public void listen(String message) {
         log.info("parsing message : {}", message);
-        List<S3EventNotification.S3EventNotificationRecord> records = S3EventNotification.parseJson(message).getRecords();
-
-        List<Movie> upsertMovieList = records
-                .stream()
-                .filter(Objects::nonNull)
-                .map(s3NotificationRec -> sqsEventParser.execute(s3NotificationRec))
-                .map(sqsEventMetadata -> s3.read(sqsEventMetadata.getBucketName(), sqsEventMetadata.getBucketObjectKey()))
-                .map(s3Object -> mapper.parse(s3Object))
-                .flatMap(List::stream)
-                .map(movie -> movieRepository.update(movie))
-                .collect(Collectors.toList());
-        log.info("DataUpsert: {}", upsertMovieList);
+        S3EventNotification s3EventNotification = S3EventNotification.parseJson(message);
+        if(null != s3EventNotification && !CollectionUtils.isNullOrEmpty(s3EventNotification.getRecords())){
+            List<S3EventNotification.S3EventNotificationRecord> records = s3EventNotification.getRecords();
+            List<Movie> upsertMovieList = records
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .map(s3NotificationRec -> sqsEventParser.execute(s3NotificationRec))
+                    .map(sqsEventMetadata -> s3.read(sqsEventMetadata.getBucketName(), sqsEventMetadata.getBucketObjectKey()))
+                    .map(s3Object -> mapper.parse(s3Object))
+                    .flatMap(List::stream)
+                    .map(movie -> movieRepository.update(movie))
+                    .collect(Collectors.toList());
+            log.info("DataUpsert: {}", upsertMovieList);
+        }
     }
 
 }

@@ -236,3 +236,5 @@ gradle-app.setting
 /.idea/
 /.idea/
 .idea/sonarlint/issuestore/index.pb
+.idea/aws.xml
+.idea/sonarlint/issuestore/index.pb

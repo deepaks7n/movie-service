@@ -2,10 +2,10 @@ spring:
   data:
     mongodb:
       database: movieDB
-      host: ${MONGO_PORT_27017_TCP_ADDR}:${MONGO_PORT_27017_TCP_PORT}
+      host: localhost:27017
   redis:
-    host: ${REDIS_PORT_6379_TCP_ADDR}
-    port: ${REDIS_PORT_6379_TCP_PORT}
+    host: ${REDIS_PORT_6379_TCP_ADDR:localhost}
+    port: ${REDIS_PORT_6379_TCP_PORT:6379}
   cache:
     type: redis
     redis:

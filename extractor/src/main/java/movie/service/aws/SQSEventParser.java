@@ -12,6 +12,7 @@ import java.util.Optional;
 @Service
 public class SQSEventParser {
     public SQSEventMetaData execute(S3EventNotification.S3EventNotificationRecord s3NotificationRecord) {
+        log.info("parsing S3 event to fetch bucket and key : {}", s3NotificationRecord.toString());
         return Optional.of(s3NotificationRecord)
                 .filter(r -> S3Event.ObjectCreatedByPut.equals(r.getEventNameAsEnum()))
                 .map(s3Rec -> new SQSEventMetaData(s3Rec.getS3().getBucket().getName(), s3Rec.getS3().getObject().getKey()))
