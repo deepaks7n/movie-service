@@ -6,12 +6,13 @@ cloud:
     region:
       static: eu-west-2
     s3:
-      bucket-name: default-fairly-arriving-kite
+      bucket-name: ${S3_BUCKET_NAME:default-fully-cosmic-shark}
     sqs:
-      url: "https://sqs.eu-west-2.amazonaws.com/459265376359/default-fairly-arriving-kite-sqs"
+      url: ${SQS_URL:https://sqs.eu-west-2.amazonaws.com/459265376359/default-fully-cosmic-shark-sqs}
 
 spring:
   data:
     mongodb:
       database: movieDB
-      host: ${MONGO_PORT_27017_TCP_ADDR}:${MONGO_PORT_27017_TCP_PORT}
+      host: ${MONGO_PORT_27017_TCP_ADDR:localhost}:${MONGO_PORT_27017_TCP_PORT:27017}
+      auto-index-creation: true

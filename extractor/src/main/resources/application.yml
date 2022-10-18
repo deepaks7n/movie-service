@@ -6,9 +6,9 @@ cloud:
     region:
       static: eu-west-2
     s3:
-      bucket-name: default-wildly-merry-mule
+      bucket-name: ${S3_BUCKET_NAME:default-fully-cosmic-shark}
     sqs:
-      url: "https://sqs.eu-west-2.amazonaws.com/459265376359/default-wildly-merry-mule-sqs"
+      url: ${SQS_URL:https://sqs.eu-west-2.amazonaws.com/459265376359/default-fully-cosmic-shark-sqs}
 
 spring:
   data:

@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: webservice
+  name: webservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webservice
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: webservice
+    spec:
+      containers:
+      - image: deepaksisupal/webservice:latest
+        name: webservice
+        env:
+        - name: REDIS_PORT_6379_TCP_ADDR
+          value: "redis-nodeport-svc"
+        - name: REDIS_PORT_6379_TCP_PORT
+          value: "6379"
+        - name: MONGO_PORT_27017_TCP_ADDR
+          value: "mongo-nodeport-svc"
+        - name: MONGO_PORT_27017_TCP_PORT
+          value: "27017"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: webservice
+  name: webservice-nodeport-svc
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+    nodePort: 32004
+  selector:
+    app: webservice
+  type: NodePort
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webservice
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+    - host: webservice.info
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: webservice
+                port:
+                  number: 8080

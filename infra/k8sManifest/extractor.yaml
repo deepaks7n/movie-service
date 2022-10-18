@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: extractor
+  name: extractor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: extractor
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: extractor
+    spec:
+      containers:
+      - image: deepaksisupal/extractor:latest
+        name: extractor
+        env:
+        - name: MONGO_PORT_27017_TCP_ADDR
+          value: "mongo-nodeport-svc"
+        - name: MONGO_PORT_27017_TCP_PORT
+          value: "27017"
+

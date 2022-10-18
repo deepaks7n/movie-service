@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Slf4j
 @Repository
 public class MovieRepository {
@@ -18,8 +20,10 @@ public class MovieRepository {
         this.mongoTemplate = mongoTemplate;
     }
 
+    private AtomicInteger seed = new AtomicInteger(0);
     public movie.domain.Movie update(movie.domain.Movie movie) {
-        log.info("trying to upsert movie {}", movie.getTitle());
+        //log.info("trying to upsert movie {}", movie.getTitle());
+        log.info("count : {}", seed.addAndGet(1));
         Query query = new Query();
         query.addCriteria(Criteria.where("title").is(movie.getTitle()));
         query.addCriteria(Criteria.where("cast").is(movie.getCast())); //shame: order mismatches

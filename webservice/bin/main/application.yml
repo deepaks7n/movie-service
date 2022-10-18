@@ -2,7 +2,7 @@ spring:
   data:
     mongodb:
       database: movieDB
-      host: localhost:27017
+      host: ${MONGO_PORT_27017_TCP_ADDR:localhost}:${MONGO_PORT_27017_TCP_PORT:27017}
   redis:
     host: ${REDIS_PORT_6379_TCP_ADDR:localhost}
     port: ${REDIS_PORT_6379_TCP_PORT:6379}
@@ -12,7 +12,7 @@ spring:
       host: localhost
       port: 6379
       key-prefix: mov
-      time-to-live: 6000000
+      time-to-live: {REDIS_TTL:600}
       use-key-prefix: true
 
 
