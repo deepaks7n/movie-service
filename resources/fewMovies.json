@@ -1,0 +1,35 @@
+[
+    {
+        "title" : "Laughing Gas",
+        "year" : 1907,
+        "cast" : [
+            "Bertha Regustus",
+            "Edward Boulden"
+        ],
+        "genres" : [
+            "Comedy"
+        ]
+    },
+    {
+        "title" : "The Bandit's Waterloo",
+        "year" : 1908,
+        "cast" : [
+            "Charles Inslee",
+            "Linda Arvidson"
+        ],
+        "genres" : [
+            "Drama"
+        ]
+    },
+    {
+        "title" : "Dr. Jekyll and Mr. Hyde",
+        "year" : 1908,
+        "cast" : [
+            "Hobart Bosworth",
+            "Betty Harte"
+        ],
+        "genres" : [
+            "Horror"
+        ]
+    }
+]
